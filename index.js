@@ -6,8 +6,9 @@
 
 'use strict'
 
-var compare = require('tsscmp')
-var CryptoES = require("crypto-es")
+const CryptoES = require("crypto-es");
+
+const compare = (a, b) => a === b;
   
 function Keygrip(keys, algorithm, encoding) {
   if (!algorithm) algorithm = "sha1";
