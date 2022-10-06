@@ -7,7 +7,7 @@
 'use strict'
 
 var compare = require('tsscmp')
-var crypto = require("crypto")
+var CryptoES = require("crypto-es")
   
 function Keygrip(keys, algorithm, encoding) {
   if (!algorithm) algorithm = "sha1";
@@ -19,9 +19,10 @@ function Keygrip(keys, algorithm, encoding) {
   }
 
   function sign(data, key) {
-    return crypto
-      .createHmac(algorithm, key)
-      .update(data).digest(encoding)
+    const hmac = CryptoES.algo.HMAC.create(CryptoES.algo[algorithm.toUpperCase()], key);
+    hmac.update(data);
+    const hash = hmac.finalize();
+    return hash.toString(CryptoES.enc[encoding.toUpperCase()])
       .replace(/\/|\+|=/g, function(x) {
         return ({ "/": "_", "+": "-", "=": "" })[x]
       })
